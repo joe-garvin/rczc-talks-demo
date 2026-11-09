@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Red Cedar Zen · Dharma talk archive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="demo-note">Demo · search works across all 805 talks · one talk, <a href="talk.html">Addicted to Clinging</a>, opens in full</div>
+<div class="wrap">
+  <div class="utility"><a class="login" href="#">Log in</a><a class="donate" href="#">Donate</a></div>
+  <header class="site-head">
+    <a class="logo" href="index.html"><img src="rczc-logo.png" alt="Red Cedar Zen Community, Bellingham, WA" width="300" height="100"></a>
+    <nav class="tabs" aria-label="Main"><a href="#">Home</a><a href="#">Events</a><a href="index.html" aria-current="page">Teachings</a><a href="#">Membership &amp; Giving</a><a href="#">Practice</a><a href="#">Ethics &amp; Safety</a><a href="#">About</a></nav>
+  </header>
+  <div class="crumbs"><a href="#">Home</a> › <a href="#">Teachings</a> › Dharma talk archive</div>
+
+  <main id="main">
+    <section class="hero">
+      <h1>Dharma Talk Archive</h1>
+      <p class="intro">Every talk given at Red Cedar since 2001, with a summary and a full transcript.<br>Search for a word or phrase, or browse by teacher, series and theme.</p>
+      <div class="search" role="search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <label for="q" class="skip-link">Search talks</label>
+        <input id="q" type="search" autocomplete="off" placeholder="Search titles, teachers and summaries">
+      </div>
+      <div class="filters">
+        <select id="f-speaker" aria-label="Teacher"><option value="">Any teacher</option></select>
+        <select id="f-theme" aria-label="Theme"><option value="">Any theme</option></select>
+        <select id="f-era" aria-label="Years"><option value="">Any year</option><option value="2001-2009">2001–2009</option><option value="2010-2014">2010–2014</option><option value="2015-2019">2015–2019</option><option value="2020-2026">2020–2026</option></select>
+      </div>
+      <div class="stats" id="stats"></div>
+    </section>
+
+    <section class="results" id="results" hidden aria-live="polite">
+      <div class="count" id="count"></div>
+      <div id="result-list"></div>
+    </section>
+
+    <div id="browse">
+      <section class="grid">
+        <div class="box sky"><h2>Latest Talks</h2><div class="body" id="latest"></div></div>
+        <div class="box ochre"><h2>From the Archive</h2><div class="body feature" id="feature"></div></div>
+      </section>
+      <section class="three">
+        <div class="box olive" id="series"><h2>Series</h2><div class="body"><ol class="num" id="series-list"></ol></div></div>
+        <div class="box sky" id="themes"><h2>Themes</h2><div class="body"><ul class="themes" id="theme-list"></ul><button class="more" id="theme-more" aria-expanded="false"></button></div></div>
+        <div class="box ochre"><h2>Texts</h2><div class="body"><ol class="num" id="text-list"></ol></div></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-foot" id="about">
+    <span>Red Cedar Zen Community is a 501(c) non-profit organization.</span>
+    <span>Transcripts were made with speech recognition and lightly edited with AI help.</span>
+  </footer>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script src="talks.js"></script>
+<script>
+const T = window.TALKS, DEMO = "2026-10-18 - Nomon Tim Burnett - Addicted to Clinging";
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmtDate = d => { const [y,m,day] = d.split("-").map(Number); return new Date(y, m-1, day||1).toLocaleDateString("en-US",{month:"short",day:day?"numeric":undefined,year:"numeric"}); };
+const count = key => { const m = new Map(); T.forEach(t => [].concat(t[key]).filter(Boolean).forEach(v => m.set(v,(m.get(v)||0)+1))); return [...m].sort((a,b)=>b[1]-a[1]); };
+
+const speakers = count("speaker"), themes = count("themes"), texts = count("texts"), series = count("series");
+const years = T.map(t => +t.date.slice(0,4)).filter(Boolean);
+$("stats").innerHTML = `<span>${T.length} talks</span>·<span>${speakers.length} teachers</span>·<span>${series.length} series</span>·<span>${Math.min(...years)} to ${Math.max(...years)}</span>`;
+speakers.forEach(([s,n]) => $("f-speaker").insertAdjacentHTML("beforeend", `<option>${esc(s)}</option>`));
+themes.forEach(([s,n]) => $("f-theme").insertAdjacentHTML("beforeend", `<option>${esc(s)}</option>`));
+
+function row(t, q) {
+  const isDemo = t.id === DEMO, hl = s => q ? esc(s).replace(new RegExp(`(${q.split(/\s+/).filter(Boolean).map(w=>w.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")).join("|")})`,"gi"),"<mark>$1</mark>") : esc(s);
+  const tag = isDemo ? "a" : "div";
+  return `<${tag} class="row" ${isDemo ? 'href="talk.html"' : `data-id="${esc(t.id)}" tabindex="0" role="button"`}>
+    <h3>${hl(t.title)}</h3>
+    <p class="date">${hl(t.speaker)} · ${fmtDate(t.date)}${t.minutes ? " · " + t.minutes + " min" : ""}${t.series ? " · " + esc(t.series) : ""}</p>
+    ${q ? `<p class="sum">${hl(t.summary)}</p>` : ""}</${tag}>`;
+}
+$("latest").innerHTML = T.slice(0,5).map(t => row(t)).join("");
+
+// From the archive: one older talk per week, chosen by week number
+const old = T.filter(t => t.date < "2015" && t.summary && t.minutes);
+const week = Math.floor(Date.now() / 6048e5), f = old[week % old.length];
+$("feature").innerHTML = `<div class="eyebrow">${fmtDate(f.date)}</div><h3>${esc(f.title)}</h3><div class="who">${esc(f.speaker)}${f.minutes ? " · " + f.minutes + " min" : ""}</div><p>${esc(f.summary.split(/(?<=\.)\s/).slice(0,2).join(" "))}</p>`;
+$("feature").dataset.id = f.id;
+
+$("series-list").innerHTML = series.slice(0,6).map(([s,n]) => `<li><span>${esc(s)}</span><small>${n}</small></li>`).join("");
+$("text-list").innerHTML = texts.slice(0,6).map(([s,n]) => `<li><span>${esc(s.replace(/^Shobogenzo$/,"Shōbōgenzō"))}</span><small>${n}</small></li>`).join("");
+const maxTheme = themes[0][1];
+const drawThemes = all => {
+  $("theme-list").innerHTML = (all ? themes : themes.slice(0,6)).map(([s,n]) => `<li><button data-theme="${esc(s)}"><span class="name">${esc(s)}</span><span class="n">${n}</span></button></li>`).join("");
+  $("theme-more").textContent = all ? "Fewer themes" : `All ${themes.length} themes`;
+  $("theme-more").setAttribute("aria-expanded", all);
+};
+let allThemes = false; drawThemes(false);
+$("theme-more").onclick = () => drawThemes(allThemes = !allThemes);
+$("theme-list").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; $("f-theme").value = b.dataset.theme; run(); scrollTo({top:0}); });
+
+function run() {
+  const q = $("q").value.trim().toLowerCase(), sp = $("f-speaker").value, th = $("f-theme").value, era = $("f-era").value;
+  const active = q || sp || th || era;
+  $("results").hidden = !active; $("browse").hidden = !!active;
+  if (!active) return;
+  const words = q.split(/\s+/).filter(Boolean);
+  let hits = T.filter(t => {
+    if (sp && t.speaker !== sp) return false;
+    if (th && !t.themes.includes(th)) return false;
+    if (era) { const [a,b] = era.split("-"), y = t.date.slice(0,4); if (y < a || y > b) return false; }
+    const hay = (t.title + " " + t.speaker + " " + t.series + " " + t.summary + " " + t.themes.join(" ") + " " + t.texts.join(" ")).toLowerCase();
+    return words.every(w => hay.includes(w));
+  });
+  if (words.length) hits = hits.map(t => [t, words.reduce((s,w) => s + (t.title.toLowerCase().includes(w) ? 5 : 0) + (t.speaker.toLowerCase().includes(w) ? 3 : 0) + 1, 0)]).sort((a,b) => b[1]-a[1] || (a[0].date < b[0].date ? 1 : -1)).map(x => x[0]);
+  $("count").textContent = `${hits.length} talk${hits.length === 1 ? "" : "s"}`;
+  $("result-list").innerHTML = hits.slice(0,40).map(t => row(t, q)).join("") || `<p class="count">Nothing matched. Try fewer words.</p>`;
+}
+let timer; ["q"].forEach(id => $(id).addEventListener("input", () => { clearTimeout(timer); timer = setTimeout(run, 120); }));
+["f-speaker","f-theme","f-era"].forEach(id => $(id).addEventListener("change", run));
+document.addEventListener("keydown", e => { if (e.key === "/" && document.activeElement !== $("q")) { e.preventDefault(); $("q").focus(); } });
+
+const toast = msg => { const el = $("toast"); el.textContent = msg; el.classList.add("on"); clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove("on"), 2600); };
+document.addEventListener("click", e => { if (e.target.closest("[data-id]")) toast("In this demo only “Addicted to Clinging” opens."); });
+</script>
+</body>
+</html>
