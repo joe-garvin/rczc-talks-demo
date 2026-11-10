@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Mimics Wild Apricot's CSP: external scripts only from allowlisted hosts -->
+<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https://joe-garvin.github.io">
+<title>Embed test page (stand-in for a Wild Apricot page)</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+/* Deliberately hostile theme CSS, like a busy WA theme */
+*{box-sizing:content-box}
+body{font:13px/1.2 Georgia,serif;color:#900;background:#fafae0;margin:0}
+div{padding:2px}
+h1,h2,h3{color:green!important;font-size:40px;text-transform:uppercase}
+a{color:orange;font-weight:bold}
+button,select,input{background:yellow;border:3px dashed red;padding:12px}
+ul,ol{list-style:square;margin:30px}
+p{margin:30px 0}
+.row{display:none}  /* collides with an app class name */
+#WA-header{background:#222;color:#fff;padding:20px;font-size:20px}
+#WA-content{max-width:960px;margin:0 auto;background:#fff}
+#WA-footer{background:#222;color:#fff;padding:20px}
+</style></head>
+<body>
+<div id="WA-header">Stand-in host site header · <a href="#">Home</a> · <a href="#events">Events</a> · Teachings</div>
+<div id="WA-content">
+  <div class="gadgetStyleBody gadgetContentEditableArea">
+    <div id="rczc-talk-archive" data-base="../"></div>
+    <script src="archive.js" defer></script>
+  </div>
+</div>
+<div id="WA-footer"><span id="events"></span>Footer stays put</div>
+</body></html>
