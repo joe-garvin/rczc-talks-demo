@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Dharma Talk Archive · Red Cedar Zen (test page)</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* Matches redcedarzen.org: white page, Open Sans, maroon links, teal buttons,
+   sky-blue / ochre / olive section boxes, tabbed nav between two rules. */
+:root{
+  --bg:#fff;--ink:#373737;--head:#333;--muted:#666;--soft:#8a8a8a;--rule:#cccccc;--hair:#e8e8e8;
+  --maroon:#660000;--teal:#008bae;--sky:#40b2cf;--ochre:#bd8d46;--olive:#97a96a;
+  --sky-tint:#eaf6fa;--ochre-tint:#f8f1e6;
+  --sans:"Open Sans",Arial,Helvetica,sans-serif;
+  --read-size:17px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:var(--maroon)}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 28px}
+.skip-link{position:absolute;left:-999px}.skip-link:focus{left:16px;top:16px;background:#fff;padding:8px 12px;z-index:99}
+.demo-note{background:var(--sky-tint);color:var(--head);font-size:13px;text-align:center;padding:7px 16px;border-bottom:1px solid #cfe9f1}
+.demo-note a{color:var(--maroon)}
+
+/* Header, as on redcedarzen.org */
+.utility{display:flex;justify-content:space-between;align-items:center;padding:14px 0 0;font-size:13px}
+.utility .login{background:#959595;color:#fff;text-decoration:none;padding:5px 12px}
+.utility .donate{color:var(--teal);font-weight:700;text-decoration:none}
+.site-head{text-align:center}
+.logo{display:inline-block;margin:10px 0 18px}
+.logo img{display:block;width:300px;height:auto}
+.tabs{display:flex;flex-wrap:wrap;justify-content:space-between;border-top:1px solid #999;border-bottom:1px solid #999;padding:1px 0}
+.tabs a{color:var(--muted);text-decoration:none;font-size:15px;padding:3px 9px}
+.tabs a:hover{color:var(--head)}
+.tabs a[aria-current]{background:#000;color:#fff}
+.crumbs{text-align:center;font-size:13px;color:var(--muted);padding:14px 0 0}
+.crumbs a{color:var(--teal);text-decoration:none}
+
+
+/* A few generic site-theme rules, to check the archive holds up against them */
+h1,h2,h3{font-family:Georgia,serif;color:#a00}p{margin:0 0 20px}button{background:#eee;border:1px solid #999;padding:6px}ul{list-style:disc;padding-left:30px}
+</style>
+</head>
+<body>
+<div class="demo-note">Test page standing in for redcedarzen.org. Everything below the menu is the snippet that gets pasted into Wild Apricot.</div>
+<div class="wrap">
+  <div class="utility"><a class="login" href="#">Log in</a><a class="donate" href="#">Donate</a></div>
+  <header class="site-head">
+    <a class="logo" href="#/"><img src="../rczc-logo.png" alt="Red Cedar Zen Community, Bellingham, WA" width="300" height="100"></a>
+    <nav class="tabs" aria-label="Main"><a href="#">Home</a><a href="#">Events</a><a href="#/" aria-current="page">Teachings</a><a href="#">Membership &amp; Giving</a><a href="#">Practice</a><a href="#">Ethics &amp; Safety</a><a href="#">About</a></nav>
+  </header>
+  <div style="height:24px"></div>
+
+  <!-- Wild Apricot snippet starts -->
+  <div id="rczc-archive"></div>
+  <script src="archive.js"></script>
+  <!-- Wild Apricot snippet ends -->
+
+</div>
+</body>
+</html>
