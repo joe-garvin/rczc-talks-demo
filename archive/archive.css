@@ -140,3 +140,21 @@
   #rczc-archive .scrub{order:5;flex-basis:100%}
   #rczc-archive .talk-head h1{font-size:26px}
 }
+
+/* Shield links and boxes from the site theme (redcedarzen.org gives links a
+   black hover background, white hover text and a bottom border). */
+#rczc-archive a,#rczc-archive a:hover,#rczc-archive a:focus,#rczc-archive a:active,#rczc-archive a:visited{background:transparent!important;border-bottom:0!important;box-shadow:none!important}
+#rczc-archive a.row,#rczc-archive a.row:hover,#rczc-archive a.row:focus,#rczc-archive a.row:visited{color:inherit!important;border-top:1px solid var(--hair)!important}
+#rczc-archive a.row:first-child{border-top:0!important}
+#rczc-archive a.row:hover h3,#rczc-archive a.row:focus h3{color:var(--maroon)!important;text-decoration-color:var(--maroon)}
+#rczc-archive a.row .date,#rczc-archive a.row:hover .date{color:var(--muted)!important}
+#rczc-archive a.row .sum,#rczc-archive a.row:hover .sum{color:var(--ink)!important}
+#rczc-archive .feature a,#rczc-archive .feature a:hover,#rczc-archive .feature a:visited{color:inherit!important}
+#rczc-archive .feature a:hover h3{text-decoration:underline}
+#rczc-archive .feature p,#rczc-archive .feature a:hover p{color:var(--ink)!important}
+#rczc-archive .feature .who,#rczc-archive .feature .eyebrow{color:var(--muted)!important}
+#rczc-archive a.chip:hover{color:var(--teal)!important}
+#rczc-archive .back:hover{color:var(--teal)!important}
+#rczc-archive .box{padding:0!important}
+#rczc-archive .box>h2{margin:0!important}
+#rczc-archive .box>.body:first-child,#rczc-archive .box>h2:first-child{margin-top:0!important}

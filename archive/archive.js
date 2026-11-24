@@ -13,7 +13,7 @@
   const CORR = root.dataset.corrections || "";
 
   const css = document.createElement("link");
-  css.rel = "stylesheet"; css.href = BASE + "archive.css?v=2";
+  css.rel = "stylesheet"; css.href = BASE + "archive.css?v=3";
   document.head.appendChild(css);
 
   const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
