@@ -202,7 +202,7 @@
           <div class="text" tabindex="0" aria-label="Transcript"></div>` : `<p class="pending">A transcript of this talk is still being prepared.${D.audio || D.youtube ? " The full talk is in the recording above." : ""}</p>`}
         </article>
         <aside>
-          <div class="teacher"><button data-go="teacher=${encodeURIComponent(D.speaker)}">${esc(D.speaker)}</button>${(n => n + (n === 1 ? " talk" : " talks"))(T.filter(t => t.speaker === D.speaker).length)} in the archive</div>
+          <div class="teacher"><button data-go="teacher=${encodeURIComponent(D.speaker)}">${esc(D.speaker)}</button></div>
           ${D.themes.length ? `<div class="box"><h2>Themes</h2><div class="body">${D.themes.map(t => `<a class="chip" href="#/?theme=${encodeURIComponent(t)}">${esc(t)}</a>`).join("")}</div></div>` : ""}
           ${D.texts.length + D.figures.length ? `<div class="box ochre"><h2>Texts and Figures</h2><div class="body">${D.texts.map(t => `<a class="chip" href="#/?text=${encodeURIComponent(t)}">${esc(t)}</a>`).join("")}${D.figures.map(t => `<a class="chip" href="#/?q=${encodeURIComponent(t)}">${esc(t)}</a>`).join("")}</div></div>` : ""}
           ${D.topics.length ? `<div class="box olive"><h2>Key Topics</h2><div class="body"><ul>${D.topics.map(t => `<li>${esc(t)}</li>`).join("")}</ul></div></div>` : ""}
