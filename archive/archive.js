@@ -62,11 +62,10 @@
     const speakers = tally("speaker"), themes = tally("themes"), texts = tally("texts"), series = tally("series");
     const years = [...new Set(T.map(t => t.date.slice(0, 4)))].sort().reverse();
     const opt = (list, label, sel) => `<option value="">${label}</option>` + list.map(([s, n]) => `<option value="${esc(s)}"${s === sel ? " selected" : ""}>${esc(s)} (${n})</option>`).join("");
-    const withText = T.filter(t => t.text === "rf").length;
     root.innerHTML = `
       <section class="hero">
         <h1>Dharma Talk Archive</h1>
-        <p class="intro">Talks given at Red Cedar since 2001, each with a summary and a recording, and most with a full transcript. Search for a word or phrase, or browse by teacher, series and theme.</p>
+        <p class="intro">Talks given at Red Cedar since 2001, each with a summary and a recording.</p>
         <div class="search" role="search">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
           <input id="rza-q" type="search" autocomplete="off" aria-label="Search talks" placeholder="Search titles, teachers and summaries" value="${esc(p.q || "")}">
@@ -78,7 +77,6 @@
           <select data-k="text" aria-label="Text">${opt(texts, "Any text", p.text)}</select>
           <select data-k="year" aria-label="Year"><option value="">Any year</option>${years.map(y => `<option${y === p.year ? " selected" : ""}>${y}</option>`).join("")}</select>
         </div>
-        <div class="stats"><span>${T.length} talks</span>·<span>${withText} with transcripts</span>·<span>${speakers.length} teachers</span>·<span>${years[years.length - 1]} to ${years[0]}</span></div>
       </section>
       <section class="results" hidden aria-live="polite"><div class="count"></div><div class="rlist"></div></section>
       <div class="browse">
