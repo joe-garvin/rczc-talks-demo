@@ -13,7 +13,7 @@
   const CORR = root.dataset.corrections || "";
 
   const css = document.createElement("link");
-  css.rel = "stylesheet"; css.href = BASE + "archive.css?v=3";
+  css.rel = "stylesheet"; css.href = BASE + "archive.css?v=4";
   document.head.appendChild(css);
 
   const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -62,11 +62,10 @@
     const speakers = tally("speaker"), themes = tally("themes"), texts = tally("texts"), series = tally("series");
     const years = [...new Set(T.map(t => t.date.slice(0, 4)))].sort().reverse();
     const opt = (list, label, sel) => `<option value="">${label}</option>` + list.map(([s, n]) => `<option value="${esc(s)}"${s === sel ? " selected" : ""}>${esc(s)} (${n})</option>`).join("");
-    const withText = T.filter(t => t.text === "rf").length;
     root.innerHTML = `
       <section class="hero">
         <h1>Dharma Talk Archive</h1>
-        <p class="intro">Talks given at Red Cedar since 2001, each with a summary and a recording, and most with a full transcript. Search for a word or phrase, or browse by teacher, series and theme.</p>
+        <p class="intro">Talks given at Red Cedar since 2001.</p>
         <div class="search" role="search">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
           <input id="rza-q" type="search" autocomplete="off" aria-label="Search talks" placeholder="Search titles, teachers and summaries" value="${esc(p.q || "")}">
@@ -78,7 +77,6 @@
           <select data-k="text" aria-label="Text">${opt(texts, "Any text", p.text)}</select>
           <select data-k="year" aria-label="Year"><option value="">Any year</option>${years.map(y => `<option${y === p.year ? " selected" : ""}>${y}</option>`).join("")}</select>
         </div>
-        <div class="stats"><span>${T.length} talks</span>·<span>${withText} with transcripts</span>·<span>${speakers.length} teachers</span>·<span>${years[years.length - 1]} to ${years[0]}</span></div>
       </section>
       <section class="results" hidden aria-live="polite"><div class="count"></div><div class="rlist"></div></section>
       <div class="browse">
@@ -204,7 +202,7 @@
           <div class="text" tabindex="0" aria-label="Transcript"></div>` : `<p class="pending">A transcript of this talk is still being prepared.${D.audio || D.youtube ? " The full talk is in the recording above." : ""}</p>`}
         </article>
         <aside>
-          <div class="teacher"><button data-go="teacher=${encodeURIComponent(D.speaker)}">${esc(D.speaker)}</button>${(n => n + (n === 1 ? " talk" : " talks"))(T.filter(t => t.speaker === D.speaker).length)} in the archive</div>
+          <div class="teacher"><button data-go="teacher=${encodeURIComponent(D.speaker)}">${esc(D.speaker)}</button></div>
           ${D.themes.length ? `<div class="box"><h2>Themes</h2><div class="body">${D.themes.map(t => `<a class="chip" href="#/?theme=${encodeURIComponent(t)}">${esc(t)}</a>`).join("")}</div></div>` : ""}
           ${D.texts.length + D.figures.length ? `<div class="box ochre"><h2>Texts and Figures</h2><div class="body">${D.texts.map(t => `<a class="chip" href="#/?text=${encodeURIComponent(t)}">${esc(t)}</a>`).join("")}${D.figures.map(t => `<a class="chip" href="#/?q=${encodeURIComponent(t)}">${esc(t)}</a>`).join("")}</div></div>` : ""}
           ${D.topics.length ? `<div class="box olive"><h2>Key Topics</h2><div class="body"><ul>${D.topics.map(t => `<li>${esc(t)}</li>`).join("")}</ul></div></div>` : ""}
@@ -217,7 +215,8 @@
     let rel;
     if (D.series) rel = T.filter(t => t.series === D.series && t.id !== D.id).sort((a, b) => a.date < b.date ? -1 : 1).slice(0, 8);
     else rel = T.filter(t => t.id !== D.id && t.text === "rf").map(t => [t, t.themes.filter(x => D.themes.includes(x)).length + t.texts.filter(x => D.texts.includes(x)).length * 2 + (t.speaker === D.speaker ? 1 : 0)]).filter(x => x[1] >= 3).sort((a, b) => b[1] - a[1] || (a[0].date < b[0].date ? 1 : -1)).slice(0, 5).map(x => x[0]);
-    $(".related").innerHTML = rel.map(t => `<li><a href="#/talk/${t.id}">${esc(t.title)}</a><small>${esc(t.speaker)} · ${fmtDate(t.date)}</small></li>`).join("") || "<li>None yet</li>";
+    $(".related").innerHTML = rel.map(t => `<li><a href="#/talk/${t.id}">${esc(t.title)}</a><small>${esc(t.speaker)} · ${fmtDate(t.date)}</small></li>`).join("");
+    if (!rel.length) $(".related").closest(".box").remove();
     on($(".teacher button"), "click", e => { location.hash = "#/?" + e.currentTarget.dataset.go; });
 
     /* Player: native audio for the archive recordings, the YouTube player otherwise */
