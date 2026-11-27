@@ -149,6 +149,7 @@ def main():
         if blocks:
             duration = int(blocks[-1]["t"] + len(blocks[-1]["text"].split()) / 2.6)
         summary = name_summary(" ".join(sec.get("Summary", "").split()), speaker)
+        summary = re.sub(r"(?<![*\w])\*([^*\n]+?)\*(?![*\w])", r"\1", summary)  # drop markdown italics
         src = https(meta.get("source", ""))
         audio = src if "rczc-audio" in src or re.search(r"\.(mp3|mp4|m4a)$", src, re.I) else ""
         yt = re.search(r"(?:v=|youtu\.be/)([\w-]{11})", src)
