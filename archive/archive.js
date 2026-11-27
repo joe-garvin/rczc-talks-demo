@@ -215,7 +215,8 @@
     let rel;
     if (D.series) rel = T.filter(t => t.series === D.series && t.id !== D.id).sort((a, b) => a.date < b.date ? -1 : 1).slice(0, 8);
     else rel = T.filter(t => t.id !== D.id && t.text === "rf").map(t => [t, t.themes.filter(x => D.themes.includes(x)).length + t.texts.filter(x => D.texts.includes(x)).length * 2 + (t.speaker === D.speaker ? 1 : 0)]).filter(x => x[1] >= 3).sort((a, b) => b[1] - a[1] || (a[0].date < b[0].date ? 1 : -1)).slice(0, 5).map(x => x[0]);
-    $(".related").innerHTML = rel.map(t => `<li><a href="#/talk/${t.id}">${esc(t.title)}</a><small>${esc(t.speaker)} · ${fmtDate(t.date)}</small></li>`).join("") || "<li>None yet</li>";
+    $(".related").innerHTML = rel.map(t => `<li><a href="#/talk/${t.id}">${esc(t.title)}</a><small>${esc(t.speaker)} · ${fmtDate(t.date)}</small></li>`).join("");
+    if (!rel.length) $(".related").closest(".box").remove();
     on($(".teacher button"), "click", e => { location.hash = "#/?" + e.currentTarget.dataset.go; });
 
     /* Player: native audio for the archive recordings, the YouTube player otherwise */
