@@ -65,7 +65,7 @@
     root.innerHTML = `
       <section class="hero">
         <h1>Dharma Talk Archive</h1>
-        <p class="intro">Talks given at Red Cedar since 2001, each with a summary and a recording.</p>
+        <p class="intro">Talks given at Red Cedar since 2001.</p>
         <div class="search" role="search">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
           <input id="rza-q" type="search" autocomplete="off" aria-label="Search talks" placeholder="Search titles, teachers and summaries" value="${esc(p.q || "")}">
